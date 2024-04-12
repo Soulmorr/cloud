@@ -1,0 +1,27 @@
+# java-crud-app-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-crud-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-crud-app
+  template:
+    metadata:
+      labels:
+        app: java-crud-app
+    spec:
+      containers:
+      - name: java-crud-app
+        image: soulmor/java-api:2.0
+        ports:
+          - containerPort: 8080
+        env:
+          - name: SPRING_APPLICATION_JSON
+            value: '{"spring.datasource.url": "jdbc:mysql://mysql-service:3306/store_database?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true",
+            "spring.datasource.username": "allow",
+            "spring.datasource.password": "allow",
+            "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQLDialect",
+            "spring.jpa.hibernate.ddl-auto" : "create"}'
